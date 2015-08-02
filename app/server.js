@@ -5,9 +5,13 @@ import nunjucksConfig from 'config/initializers/nunjucks';
 import middlewaresConfig from 'config/initializers/middlewares';
 
 
-require('./engine/config-loader');
+import Engine from './engine/index';
 
-const app = koa();
+
+const engine = new Engine()
+engine.start()
+
+const app = engine.app;
 
 middlewaresConfig(app);
 nunjucksConfig(app);
@@ -16,8 +20,5 @@ nunjucksConfig(app);
 app.use(function* () {
   this.body = this.render('application/index.html');
 });
-
-app.listen(3000);
-console.log('Server listening on port 3000');
 
 export default app;
